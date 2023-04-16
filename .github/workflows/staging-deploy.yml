@@ -6,10 +6,6 @@ name: Staging Deploy
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    inputs:
-      ref:
-        description: 'branch, tag or SHA to checkout'
-        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -25,8 +21,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
-          ref: ${{env.INPUT_REF}}
+          ref: ${{ github.event.inputs.ref || github.sha }}
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Staging Deploy! Running with ${{env.INPUT_REF}}
+        run: echo Staging Deploy! Running with ${{ github.sha }}
